@@ -131,15 +131,13 @@ function addMovieToUserList(movie: Movie, user: User): void {
 
 function adicionaFilmes(user: User, movies: Movie[], ...ids: number[]): User {
     const newList: Movie[] = [];
-
+    
     movies.forEach(movie => {
         const isMovieInList = ids.includes(movie.id);
-
-        if(!isMovieInList) {
-            throw new Error("Filme não está na lista");
+        
+        if(isMovieInList) {
+            newList.push(movie)
         }
-
-        newList.push(movie)
     })
 
     return {
@@ -152,7 +150,7 @@ function adicionaFilmes(user: User, movies: Movie[], ...ids: number[]): User {
 }
 
 
-const newUserWithNewList = adicionaFilmes(user, movies, 1, 2, 3)
+const newUserWithNewList = adicionaFilmes(user, movies, 1, 1, 1)
 
 
 console.log(newUserWithNewList);
