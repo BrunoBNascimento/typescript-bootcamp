@@ -13,6 +13,8 @@ enum IndicativeRating {
 }
 
 interface Movie {
+    id: number;
+
     name: string;
 
     ratings: number[];
@@ -22,16 +24,19 @@ interface Movie {
 
 const movies: Movie[] = [
     {
+        id: 1,
         name: 'Spider Man',
         ratings: [1, 5, 3],
         indicativeRating: IndicativeRating.AL
     },
     {
+        id: 2,
         name: 'Doctor Strange',
         ratings: [5, 5, 3],
         indicativeRating: IndicativeRating.A18
     },
     {
+        id: 3,
         name: 'Avengers',
         ratings: [],
         indicativeRating: IndicativeRating.A12
@@ -117,10 +122,6 @@ const orderedMovies = orderByAverageRate(movies);
 
 const filteredMoviesByIndicativeRating = filterMoviesByIndicativeRating(orderedMovies, user)
 
-console.log(filteredMoviesByIndicativeRating)
-
-console.log(user);
-
 function addMovieToUserList(movie: Movie, user: User): void {
     user.myList = [
         ...user.myList,
@@ -128,31 +129,40 @@ function addMovieToUserList(movie: Movie, user: User): void {
     ]
 }
 
-addMovieToUserList(
-    {
-        name: "Toy Story",
-        ratings: [5, 5, 5],
-        indicativeRating: IndicativeRating.AL
-    },
-    user
-)
+function adicionaFilmes(user: User, movies: Movie[], ...ids: number[]): User {
+    const newList: Movie[] = [];
 
-addMovieToUserList(
-    {
-        name: "Toy Story 2",
-        ratings: [5, 5, 5],
-        indicativeRating: IndicativeRating.AL
-    },
-    user
-)
+    movies.forEach(movie => {
+        const isMovieInList = ids.includes(movie.id);
 
-console.log(user);
+        if(!isMovieInList) {
+            throw new Error("Filme não está na lista");
+        }
+
+        newList.push(movie)
+    })
+
+    return {
+        ...user,
+        myList: [
+            ...user.myList,
+            ...newList
+        ]
+    }
+}
+
+
+const newUserWithNewList = adicionaFilmes(user, movies, 1, 2, 3)
+
+
+console.log(newUserWithNewList);
 
 /*
 
-Problema 1
+Problema 2
 
-Adicionar ao usuário um array de "minha lista" onde é possível armazenar os filmes
-Criar um metodo para adicionar um filme a lista do usuário
-
+    * Adicionar uma propriedade ID ao filme - OK
+    * Adicionar um método que passados os ids por rest parameter, podemos adicioná-los a lista do usuário - OK
+    
+    * Desafio: Separar em arquivos
 */
