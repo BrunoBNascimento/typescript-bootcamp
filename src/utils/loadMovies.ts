@@ -7,7 +7,7 @@ interface MoviesFromApiDTO {
     duration: number;
 }
 
-function loadMovies(data: MoviesFromApiDTO[]): Partial<Movie>[] {
+function loadMovies(data: MoviesFromApiDTO[]): Omit<Movie, "ratings">[] {
     return data.map((movie) => ({
         id: movie.id,
         name: movie.title,
