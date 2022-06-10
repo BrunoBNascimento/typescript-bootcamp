@@ -1,13 +1,12 @@
 import Movie from "../interfaces/Movie";
 import removeMovieWithoutRatings from "./removeMovieWithoutRatings";
 
-interface Average {
+
+interface MoviesWithAverage extends Movie {
     average: number;
 }
 
-type MovieWithAverage = Movie & Average;
-
-function calculateMoviesAverage(movies: Movie[]): MovieWithAverage[] {
+function calculateMoviesAverage(movies: Movie[]): MoviesWithAverage[] {
     const sanitizedMovies = removeMovieWithoutRatings(movies);
 
     return sanitizedMovies.map(movie => {
